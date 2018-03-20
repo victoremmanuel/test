@@ -1,7 +1,7 @@
-package test;
+package src;
 
 import junit.framework.Assert;
-import pack.BankAccount;
+import src.BankAccount;
 
 import org.junit.Before;
 import org.junit.Test;
