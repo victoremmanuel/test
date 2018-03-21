@@ -1,7 +1,7 @@
-package src;
+package src.java.test;
 
 import junit.framework.Assert;
-import src.BankAccount;
+import src.java.dao.BankAccount;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +15,6 @@ public class TestBankAccount {
 		Assert.assertEquals(5.0, amount);
 
 	}
-	
-	//test
 
 	@Test
 	public void testDebitWithInSufficientFunds() {
