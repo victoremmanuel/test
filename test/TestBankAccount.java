@@ -6,6 +6,7 @@ import src.main.java.BankAccount;
 import org.junit.Before;
 import org.junit.Test;
 
+@Category(IntegrationTest.class)
 public class TestBankAccount {
 
 	@Test
