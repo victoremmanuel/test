@@ -1,0 +1,49 @@
+Started by user admin
+Building in workspace /var/lib/jenkins/workspace/test
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/victoremmanuel/test.git # timeout=10
+Fetching upstream changes from https://github.com/victoremmanuel/test.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/victoremmanuel/test.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision b0d733820c517ce17ec33b5c8d8d172e97930130 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b0d733820c517ce17ec33b5c8d8d172e97930130
+Commit message: "Update Readme.md"
+ > git rev-list --no-walk b0d733820c517ce17ec33b5c8d8d172e97930130 # timeout=10
+[test] $ /usr/share/maven/bin/mvn -f pom.xml pre-integration-test
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building test 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ test ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /var/lib/jenkins/workspace/test/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ test ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /var/lib/jenkins/workspace/test/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.17:test (default-test) @ test ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ test ---
+[INFO] Building jar: /var/lib/jenkins/workspace/test/target/test-0.0.1-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.142 s
+[INFO] Finished at: 2018-03-21T14:10:15+00:00
+[INFO] Final Memory: 8M/21M
+[INFO] ------------------------------------------------------------------------
+Finished: SUCCESS
