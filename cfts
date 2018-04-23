@@ -1,0 +1,178 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Paramters": {
+	    "FirstVPC": {
+            "Description": "FirstVPC",
+            "Type": "String"
+        },
+	    "SecondVPC": {
+            "Description": "SecondVPC",
+            "Type": "String"
+        },
+	    "VpcCIDR1": {
+            "Description": "Please enter the IP range (CIDR notation) for this VPC",
+            "Type": "String",
+            "Default": "10.0.0.0/16"
+        },
+        "PublicSubnetCIDR1": {
+            "Description": "Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone",
+            "Type": "String",
+            "Default": "10.1.0.0/16"
+        },
+        "PrivateSubnetCIDR1": {
+            "Description": "Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone",
+            "Type": "String",
+            "Default": "10.2.0.0/16"
+        },
+		"AvailabilityZoneForPublicSubnet1": {
+			"Type": "String",
+			"AllowedValues": ["us-east-2a", "us-east-2b", "us-east-2c", "us-east-2d"]
+		},
+		"AvailabilityZoneForPrivateSubnet1": {
+			"Type": "String",
+			"AllowedValues": ["us-east-2a", "us-east-2b", "us-east-2c", "us-east-2d"]
+		},
+		"VpcCIDR2": {
+            "Description": "Please enter the IP range (CIDR notation) for this VPC",
+            "Type": "String",
+            "Default": "10.0.0.0/24"
+        },
+        "PublicSubnetCIDR2": {
+            "Description": "Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone",
+            "Type": "String",
+            "Default": "10.1.0.0/24"
+        },
+        "PrivateSubnetCIDR2": {
+            "Description": "Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone",
+            "Type": "String",
+            "Default": "10.2.0.0/24"
+        },
+		"AvailabilityZoneForPublicSubnet2": {
+			"Type": "String",
+			"AllowedValues": ["us-east-2a", "us-east-2b", "us-east-2c", "us-east-2d"]
+		},
+		"AvailabilityZoneForPrivateSubnet2": {
+			"Type": "String",
+			"AllowedValues": ["us-east-2a", "us-east-2b", "us-east-2c", "us-east-2d"]
+		}
+	},
+    "Metadata": {
+	"AWS::CloudFormation::Interface" : {
+	    "ParameterGroups" : [
+            {   
+			"Label" : { "default" : "EnvironmentName" },
+            "Parameters" : [ "EnvironmentName" ]
+			},
+	        {
+			"Label" : { "default" : "Network Configuration" },
+			"Parameters" : [ "VpcCIDR", "PublicSubnet1CIDR", "PublicSubnet2CIDR","PrivateSubnet1CIDR","PrivateSubnet2CIDR" ]
+            },
+      {
+        "Label" : { "default":"AZ" },
+        "Parameters" : [ "AvailabilityZoneForPublicSubnet", "AvailabilityZoneForPrivateSubnet" ]
+      }
+    ],
+    "ParameterLabels" : {
+      "EnvironmentName" : { "default" : "EnvironmentName" }
+    }
+	}
+	},
+    "Mappings": {},
+    "Resources": {
+	   "FirstVPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "VpcCIDR1"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "FirstVPC"
+                        }
+                    }
+                ]
+            }
+        },
+	   "SecondVPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "VpcCIDR2"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "SecondVPC"
+                        }
+                    }
+                ]
+            }
+        },
+	   "InternetGateway1": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "FirstVPC"
+                        }
+                    }
+                ]
+            }
+        }
+	   "InternetGateway2": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "SecondVPC"
+                        }
+                    }
+                ]
+            }
+        }
+	   "InternetGatewayAttachment1": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": {
+                    "Ref": "InternetGateway1"
+                },
+                "VpcId": {
+                    "Ref": "FirstVPC"
+                }
+            }
+        },
+	   "InternetGatewayAttachment2": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": {
+                    "Ref": "InternetGateway2"
+                },
+                "VpcId": {
+                    "Ref": "SecondVPC"
+                }
+            }
+        },
+	    "DefaultPublicRoute1": {
+            "Type": "AWS::EC2::Route",
+            "DependsOn": "InternetGatewayAttachment1",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable1"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "InternetGateway1"
+                }
+            }
+        },
+	},
+    "Output": {}
+}
